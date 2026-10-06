@@ -1,0 +1,19 @@
+﻿# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Secrets and config
+.env
+
+# Data files (keep raw data out of Git)
+data/raw/
+*.csv
+*.parquet
+
+# VS Code and OS files
+.vscode/
+.DS_Store
+Thumbs.db
