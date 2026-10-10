@@ -17,3 +17,5 @@ data/raw/
 .vscode/
 .DS_Store
 Thumbs.db
+
+*.db
