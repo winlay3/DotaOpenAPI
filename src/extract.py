@@ -8,10 +8,10 @@ BASE_URL = "https://api.opendota.com/api"
 RAW_DIR = Path("data/raw")
 
 
-def fetch_heroes():
-    """Fetch the list of all heroes from the OpenDota API."""
-    response = requests.get(f"{BASE_URL}/heroes", timeout=30)
-    response.raise_for_status()  # stops with an error if the request failed
+def fetch(endpoint):
+    """Fetch any OpenDota endpoint and return the parsed JSON."""
+    response = requests.get(f"{BASE_URL}/{endpoint}", timeout=30)
+    response.raise_for_status()
     return response.json()
 
 
@@ -22,9 +22,17 @@ def save_raw(data, filename):
         json.dump(data, f, indent=2)
 
 
+def run():
+    datasets = {
+        "heroes": "heroes",
+        "pro_matches": "proMatches",
+    }
+    for name, endpoint in datasets.items():
+        data = fetch(endpoint)
+        save_raw(data, f"{name}.json")
+        df = pd.DataFrame(data)
+        print(f"{name}: {len(df)} rows, {len(df.columns)} columns")
+
+
 if __name__ == "__main__":
-    heroes = fetch_heroes()
-    save_raw(heroes, "heroes.json")
-    df = pd.DataFrame(heroes)
-    print(df.head())
-    print(f"Total heroes: {len(df)}")
+    run()
