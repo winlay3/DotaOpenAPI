@@ -22,6 +22,7 @@ def transform_pro_matches():
     df = df.drop_duplicates(subset="match_id")
     df["start_time"] = pd.to_datetime(df["start_time"], unit="s")
     df["duration_min"] = (df["duration"] / 60).round(1)
+    df["teams_known"] = df["radiant_name"].notna() & df["dire_name"].notna()
     df["radiant_name"] = df["radiant_name"].fillna("Unknown")
     df["dire_name"] = df["dire_name"].fillna("Unknown")
     df["winner"] = df["radiant_name"].where(df["radiant_win"], df["dire_name"])
@@ -29,7 +30,7 @@ def transform_pro_matches():
         [
             "match_id", "start_time", "duration_min", "league_name",
             "radiant_name", "dire_name", "radiant_score", "dire_score",
-            "radiant_win", "winner",
+            "radiant_win", "winner", "teams_known"
         ]
     ]
 
