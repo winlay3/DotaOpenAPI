@@ -21,6 +21,10 @@ def run():
     heroes.to_sql("heroes", engine, if_exists="replace", index=False)
     matches.to_sql("pro_matches", engine, if_exists="replace", index=False)
 
+    players = pd.read_csv(PROCESSED_DIR / "match_players.csv")
+    players.to_sql("match_players", engine, if_exists="replace", index=False)
+    print(f"match_players: {len(players)} rows loaded")
+
     print(f"heroes: {len(heroes)} rows loaded")
     print(f"pro_matches: {len(matches)} rows loaded")
 

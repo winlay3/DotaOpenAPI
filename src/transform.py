@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import json
 import pandas as pd
 
 RAW_DIR = Path("data/raw")
@@ -34,12 +34,28 @@ def transform_pro_matches():
         ]
     ]
 
+def transform_match_players():
+    rows = []
+    for path in (RAW_DIR / "matches").glob("*.json"):
+        match = json.loads(path.read_text(encoding="utf-8"))
+        for p in match.get("players", []):
+            rows.append({
+                "match_id": match["match_id"],
+                "hero_id": p["hero_id"],
+                "team": "radiant" if p["isRadiant"] else "dire",
+                "kills": p["kills"],
+                "deaths": p["deaths"],
+                "assists": p["assists"],
+                "won": bool(p["win"]),
+            })
+    return pd.DataFrame(rows)
 
 def run():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     tables = {
         "heroes": transform_heroes(),
         "pro_matches": transform_pro_matches(),
+        "match_players": transform_match_players(),
     }
     for name, df in tables.items():
         df.to_csv(PROCESSED_DIR / f"{name}.csv", index=False)

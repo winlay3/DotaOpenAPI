@@ -26,3 +26,7 @@ def test_match_durations_positive():
 def test_winner_never_missing():
     matches = pd.read_csv(f"{PROCESSED}/pro_matches.csv")
     assert matches["winner"].notna().all()
+
+def test_ten_players_per_match():
+    players = pd.read_csv(f"{PROCESSED}/match_players.csv")
+    assert (players.groupby("match_id").size() == 10).all()
