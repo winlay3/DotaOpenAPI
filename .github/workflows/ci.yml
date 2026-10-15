@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "0 1 * * *"   # every day at 01:00 UTC (08:00 Bangkok)
+  workflow_dispatch:       # adds a "Run workflow" button
 
 jobs:
   test:
@@ -26,3 +29,10 @@ jobs:
 
       - name: Run data quality tests
         run: pytest -v
+
+      - name: Save database
+        uses: actions/upload-artifact@v4
+        with:
+          name: warehouse-db
+          path: data/warehouse.db
+          retention-days: 7
