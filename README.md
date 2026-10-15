@@ -1,5 +1,7 @@
 # Dota 2 Pro Match Data Pipeline
 
+![CI](https://github.com/winlay3/DotaOpenAPI/actions/workflows/ci.yml/badge.svg)
+
 An end-to-end ETL pipeline that pulls Dota 2 hero and professional match data from the [OpenDota API](https://docs.opendota.com/), cleans it, validates it with automated tests, and loads it into a SQL database.
 
 ## Pipeline
