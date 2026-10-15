@@ -13,6 +13,10 @@ flowchart LR
     C --> D[Load<br/>SQLite]
     C --> E[Data quality tests<br/>pytest]
 ```
+## Dashboard
+![Dashboard](docs/dashboard.png)
+
+Run it with `streamlit run app.py`.
 
 ## Tech stack
 Python, pandas, requests, SQLAlchemy, SQLite, pytest, Git
